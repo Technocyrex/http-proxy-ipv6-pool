@@ -19,7 +19,7 @@ fn main() {
     opts.optopt(
         "i",
         "ipv6-subnet",
-        "IPv6 Subnet: 2001:19f0:6001:48e4::/64",
+        "IPv6 Subnet: 2001:19f0:4400:798a::/64",
         "IPv6_SUBNET",
     );
     opts.optflag("h", "help", "print this help menu");
@@ -37,7 +37,7 @@ fn main() {
     let bind_addr = matches.opt_str("b").unwrap_or("0.0.0.0:51080".to_string());
     let ipve_subnet = matches
         .opt_str("i")
-        .unwrap_or("2001:19f0:6001:48e4::/64".to_string());
+        .unwrap_or("2001:19f0:4400:798a::/64".to_string());
     run(bind_addr, ipve_subnet)
 }
 

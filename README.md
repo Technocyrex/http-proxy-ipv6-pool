@@ -8,14 +8,14 @@ https://zu1k.com/posts/tutorials/http-proxy-ipv6-pool/
 
 Assuming you already have an entire IPv6 subnet routed to your server, for me I purchased [Vultr's server](https://www.vultr.com/?ref=9039594-8H) to get one.
 
-Get your IPv6 subnet prefix, for me is `2001:19f0:4400:798a::/64`.
+Get your IPv6 subnet prefix, for me is `2001:19f0:4400:61d5::/64`.
 
 ```sh
 $ ip a
 ......
 2: enp1s0: <BROADCAST,MULTICAST,ALLMULTI,UP,LOWER_UP> mtu 1500 qdisc fq state UP group default qlen 1000
     ......
-    inet6 2001:19f0:4400:798a:5400:3ff:fefa:a71d/64 scope global dynamic mngtmpaddr 
+    inet6 2001:19f0:4400:61d5:5400:3ff:fefa:a71d/64 scope global dynamic mngtmpaddr 
        valid_lft 2591171sec preferred_lft 603971sec
     ......
 ```
@@ -23,7 +23,7 @@ $ ip a
 Add route via default internet interface
 
 ```sh
-ip route add local 2001:19f0:4400:798a::/64 dev enp1s0
+ip route add local 2001:19f0:4400:61d5::/64 dev enp1s0
 ```
 
 Open `ip_nonlocal_bind` for binding any IP address:
@@ -49,7 +49,7 @@ proxy eth0 {
     timeout 500
     ttl 30000
 
-    rule 2001:19f0:4400:798a::/64 {
+    rule 2001:19f0:4400:61d5::/64 {
         static
     }
 }
@@ -58,11 +58,11 @@ proxy eth0 {
 Now you can test by using `curl`:
 
 ```sh
-$ curl --interface 2001:19f0:4400:798a::1 ipv6.ip.sb
-2001:19f0:4400:798a::1
+$ curl --interface 2001:19f0:4400:61d5::1 ipv6.ip.sb
+2001:19f0:4400:61d5::1
 
-$ curl --interface 2001:19f0:4400:798a::2 ipv6.ip.sb
-2001:19f0:4400:798a::2
+$ curl --interface 2001:19f0:4400:61d5::2 ipv6.ip.sb
+2001:19f0:4400:61d5::2
 ```
 
 Great!
@@ -71,18 +71,18 @@ Finally, use the http proxy provided by this project:
 
 ```sh
 $ while true; do curl -x http://127.0.0.1:51080 ipv6.ip.sb; done
-2001:19f0:4400:798a:971e:f12c:e2e7:d92a
-2001:19f0:4400:798a:6d1c:90fe:ee79:1123
-2001:19f0:4400:798a:f7b9:b506:99d7:1be9
-2001:19f0:4400:798a:a06a:393b:e82f:bffc
-2001:19f0:4400:798a:245f:8272:2dfb:72ce
-2001:19f0:4400:798a:df9e:422c:f804:94f7
-2001:19f0:4400:798a:dd48:6ba2:ff76:f1af
-2001:19f0:4400:798a:1306:4a84:570c:f829
-2001:19f0:4400:798a:6f3:4eb:c958:ddfa
-2001:19f0:4400:798a:aa26:3bf9:6598:9e82
-2001:19f0:4400:798a:be6b:6a62:f8f7:a14d
-2001:19f0:4400:798a:b598:409d:b946:17c
+2001:19f0:4400:61d5:971e:f12c:e2e7:d92a
+2001:19f0:4400:61d5:6d1c:90fe:ee79:1123
+2001:19f0:4400:61d5:f7b9:b506:99d7:1be9
+2001:19f0:4400:61d5:a06a:393b:e82f:bffc
+2001:19f0:4400:61d5:245f:8272:2dfb:72ce
+2001:19f0:4400:61d5:df9e:422c:f804:94f7
+2001:19f0:4400:61d5:dd48:6ba2:ff76:f1af
+2001:19f0:4400:61d5:1306:4a84:570c:f829
+2001:19f0:4400:61d5:6f3:4eb:c958:ddfa
+2001:19f0:4400:61d5:aa26:3bf9:6598:9e82
+2001:19f0:4400:61d5:be6b:6a62:f8f7:a14d
+2001:19f0:4400:61d5:b598:409d:b946:17c
 ```
 
 ## Author
